@@ -8,7 +8,7 @@ const PORT = 8081;
 export default defineConfig({
   // base: env.VITE_BASE_PATH,
   plugins: [react()],
-  base: "/github-repositories-explorer/",
+  // base: "/github-repositories-explorer/",
   resolve: {
     alias: [
       {

@@ -1,8 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Outlet } from "react-router-dom";
+import { MainLayout } from "src/layouts";
 import { LoadingScreen } from "src/components/loading-screen";
-
-import { MainLayout } from "../layouts/main-layout";
 
 // ----------------------------------------------------------------------
 const GithubExplorer = lazy(

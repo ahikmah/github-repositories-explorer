@@ -7,6 +7,10 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     () => localStorage.getItem("theme") || "light"
   );
 
+  const [viewMode, setViewMode] = useState<"mobile" | "system">(() =>
+    window.innerWidth <= 768 ? "mobile" : "system"
+  );
+
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -20,8 +24,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
 
+  const toggleViewMode = (val: "mobile" | "system") => {
+    setViewMode(val);
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{ theme, toggleTheme, viewMode, toggleViewMode }}
+    >
       {children}
     </ThemeContext.Provider>
   );

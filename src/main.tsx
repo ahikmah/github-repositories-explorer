@@ -7,7 +7,7 @@ import App from "./app";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter basename="/">
+    <BrowserRouter basename="/github-repositories-explorer">
       <App />
     </BrowserRouter>
   </StrictMode>

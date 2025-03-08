@@ -1,14 +1,14 @@
 import path from "path";
 
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
 
 const PORT = 8081;
+const env = loadEnv(process.cwd(), "");
 
 export default defineConfig({
-  // base: env.VITE_BASE_PATH,
+  base: env.VITE_BASE_PATH,
   plugins: [react()],
-  // base: "/github-repositories-explorer/",
   resolve: {
     alias: [
       {

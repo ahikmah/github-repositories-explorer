@@ -8,6 +8,7 @@ const PORT = 8081;
 export default defineConfig({
   // base: env.VITE_BASE_PATH,
   plugins: [react()],
+  base: "/github-repositories-explorer/",
   resolve: {
     alias: [
       {
@@ -16,10 +17,6 @@ export default defineConfig({
       },
       {
         find: /^src(.+)/,
-        replacement: path.join(process.cwd(), "src/$1"),
-      },
-      {
-        find: /^@\//,
         replacement: path.join(process.cwd(), "src/$1"),
       },
     ],

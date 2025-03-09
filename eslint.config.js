@@ -29,16 +29,58 @@ export default tseslint.config(
         "error",
         {
           groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
+            "builtin", // Node.js built-ins (e.g., 'fs', 'path')
+            "external", // npm packages (e.g., 'react')
+            "internal", // Aliased imports (e.g., 'src/<dir>')
+            "parent", // Parent imports (e.g., '../utils')
+            "sibling", // Sibling imports (e.g., './Component')
+            "index", // Index imports (e.g., './')
           ],
+          pathGroups: [
+            {
+              pattern: "src/api/**",
+              group: "internal",
+              position: "after",
+            },
+            {
+              pattern: "src/components/**",
+              group: "internal",
+              position: "after",
+            },
+            {
+              pattern: "src/lib/**",
+              group: "internal",
+              position: "after",
+            },
+            {
+              pattern: "src/theme/**",
+              group: "internal",
+              position: "after",
+            },
+            {
+              pattern: "src/types/**",
+              group: "internal",
+              position: "after",
+            },
+          ],
+          pathGroupsExcludedImportTypes: ["builtin", "external"],
           "newlines-between": "always",
+          alphabetize: {
+            order: "asc",
+            caseInsensitive: true,
+          },
         },
       ],
+    },
+    settings: {
+      "import/resolver": {
+        alias: {
+          map: [
+            ["src", "./src"], // Align alias with Vite config
+          ],
+          extensions: [".js", ".jsx", ".ts", ".tsx"], // Ensure TS and JSX files are resolved
+        },
+      },
     },
   }
 );

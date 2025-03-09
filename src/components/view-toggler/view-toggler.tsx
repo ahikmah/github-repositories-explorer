@@ -1,5 +1,6 @@
-import { Iconify } from "src/components/iconify";
 import { useThemeContext } from "src/theme";
+
+import { Iconify } from "src/components/iconify";
 import { ToggleGroup, ToggleGroupItem } from "src/components/ui/toggle-group";
 
 export const ViewToggler = () => {

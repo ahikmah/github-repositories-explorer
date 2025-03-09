@@ -1,4 +1,5 @@
 import React from "react";
+
 import LogoImage from "src/assets/octocat.png";
 
 interface LogoProps {

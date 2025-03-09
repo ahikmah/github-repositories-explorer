@@ -1,4 +1,5 @@
 import { useThemeContext } from "src/theme";
+
 import { Iconify } from "src/components/iconify";
 
 export const ThemeToggler: React.FC = () => {

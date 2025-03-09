@@ -1,7 +1,7 @@
 import { Navigate, useRoutes } from "react-router-dom";
 
-import { mainRoutes } from "./main";
 import { errorRoutes } from "./error";
+import { mainRoutes } from "./main";
 
 export const Router = () => {
   return useRoutes([

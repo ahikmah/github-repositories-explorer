@@ -6,7 +6,7 @@ import { ViewToggler } from "src/components/view-toggler";
 
 export const Header: React.FC = () => {
   return (
-    <header className="sticky top-0 z-10 shadow-sm dark:bg-gray-800 bg-gray-100 text-gray-600 dark:text-gray-100">
+    <header className="sticky top-0 z-20 shadow-sm dark:bg-gray-800 bg-gray-100 text-gray-600 dark:text-gray-100">
       <div className="container mx-auto px-4 flex items-center justify-between py-2 max-w-screen-lg">
         <Logo width="60px" height="60px" />
 

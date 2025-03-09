@@ -12,7 +12,7 @@ export const MainLayout: React.FC<LayoutWrapperProps> = ({ children }) => {
     <>
       <Header />
 
-      <main className="container mx-auto p-4 max-w-screen-lg mt-9 h-full">
+      <main className="container mx-auto p-4 max-w-screen-lg h-full mb-5">
         {children}
       </main>
 

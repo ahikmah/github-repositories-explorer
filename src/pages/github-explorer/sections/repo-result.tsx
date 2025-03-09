@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useCallback, useRef } from "react";
 
 import useRepos from "src/api/useRepos";
 
 import { AnimateLogo } from "src/components/logo";
-
-import { Repository } from "src/types/repo";
 
 import { Error, NotFound, RepoCard } from "../sections";
 
@@ -14,22 +12,44 @@ interface RepoResultProps {
 
 export const RepoResult: React.FC<RepoResultProps> = ({ username }) => {
   const {
-    data: repoData,
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isFetching: isFetchingRepos,
     error: repoError,
-  } = useRepos(username, 1);
+  } = useRepos(username);
 
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const repos = data?.pages.flatMap((page) => page.repos) ?? [];
+
+  const lastRepoRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (isFetchingNextPage) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      });
+
+      if (node) observer.current.observe(node);
+    },
+    [isFetchingNextPage, hasNextPage, fetchNextPage]
+  );
   const isAnyError = !isFetchingRepos && repoError;
 
-  const isNoReposFound =
-    !isFetchingRepos && !repoError && repoData?.repos.length === 0;
+  const isNoReposFound = !isFetchingRepos && !repoError && repos.length === 0;
 
-  const isRepoFound = !isFetchingRepos && (repoData?.repos?.length ?? 0) > 0;
+  const isInitFetch = isFetchingRepos && repos.length === 0;
 
-  console.log(repoData, isFetchingRepos, repoError);
+  // const isRepoFound = !isFetchingRepos && (repos?.length ?? 0) > 0;
+
   return (
     <div>
-      {isFetchingRepos && (
+      {isInitFetch && (
         <div className="flex justify-center items-center">
           <AnimateLogo />
         </div>
@@ -39,10 +59,19 @@ export const RepoResult: React.FC<RepoResultProps> = ({ username }) => {
 
       {isNoReposFound && <NotFound type="repositories" />}
 
-      {isRepoFound &&
-        repoData?.repos.map((repo: Repository) => (
-          <RepoCard key={repo.id} repo={repo} />
+      <div>
+        {repos.map((repo, index) => (
+          <RepoCard
+            key={repo.id}
+            repo={repo}
+            ref={index === repos.length - 1 ? lastRepoRef : null}
+          />
         ))}
+
+        {isFetchingNextPage && (
+          <div className="flex justify-center items-center">load more...</div>
+        )}
+      </div>
     </div>
   );
 };

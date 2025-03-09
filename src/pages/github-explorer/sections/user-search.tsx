@@ -23,7 +23,7 @@ export const UserSearch: React.FC<UserSearchProps> = ({
   return (
     <div
       className={cn(
-        "flex justify-between items-center gap-3 flex-col",
+        " sticky top-[70px] flex justify-between items-center gap-3 flex-col bg-background pt-5 pb-3 rounded drop-shadow-sm z-10",
         isMobile ? "flex-col" : " md:flex-row"
       )}
     >

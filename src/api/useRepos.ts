@@ -1,22 +1,19 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-import type { Repository } from "src/types/repo";
+import { fetchRepos } from "./api";
 
-import { fetchRepos, getLastPageFromHeader } from "./api";
+const PAGE_PER_REQUEST = 5;
 
-const useRepos = (username: string, page: number) => {
-  return useQuery({
-    queryKey: ["repos", username, page],
-    queryFn: async () => {
-      const result = await fetchRepos(username, page);
-      return {
-        repos: result.repos as Repository[],
-        lastPage: getLastPageFromHeader(result.linkHeader),
-      };
+const useRepos = (username: string) => {
+  return useInfiniteQuery({
+    queryKey: ["repos", username],
+    queryFn: ({ pageParam = 1 }) => fetchRepos(username, pageParam), // Fetch based on `pageParam`
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.repos.length < PAGE_PER_REQUEST
+        ? null
+        : allPages.length + 1;
     },
-    enabled: !!username,
-    placeholderData: (previousData) =>
-      previousData ?? { repos: [], lastPage: null },
   });
 };
 
